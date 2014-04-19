@@ -1,6 +1,6 @@
-for i in `cat test.txt`
+for i in `cat Stocks.dat`
 do
-	for j in `cat donnees/$i`
+	for j in `cat data/$i`
 	do
 		s=`echo $j|cut -f1 -d"_"`
 		d=`date --date\="@$s" "+%d/%m/%Y,%H:%M:%S"`
@@ -9,8 +9,8 @@ do
 	done
 	gnuplot script.plt
 	d=`date "+%s"`
-	mv data.png graph/$i/$i"_"$d.png
-	rm graph/$i/$i.png
-	ln -s graph/$i/$i"_"$d.png graph/$i/$i.png
+	mv data.png chart/$i/$i"_"$d.png
+	rm chart/$i/$i.png
+	ln -s chart/$i/$i"_"$d.png graph/$i/$i.png
 	rm data.dat
 done

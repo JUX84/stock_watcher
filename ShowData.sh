@@ -1,5 +1,5 @@
 #!/bin/sh
-rm donnees/*~
+
 rm ShowData.html
 rm ShowData.css
 touch ShowData.html
@@ -19,7 +19,7 @@ echo '			</h1>'>>ShowData.html
 echo '			<br>'>>ShowData.html
 echo '		</div>'>>ShowData.html
 echo '		<div id="gallerie">	'>>ShowData.html
-				for i in donnees/*
+				for i in data/*
 				do
 					echo '<p><font color="red">'$i'</font></p>'>>ShowData.html
 					for j in `cat $i`
@@ -32,7 +32,7 @@ echo '		<div id="gallerie">	'>>ShowData.html
 					done
 				done	
 				
-				for i in graph/*
+				for i in chart/*
 				do
 					echo '<p><font color="red">'$i'</font></p><br><br>'>>ShowData.html
 					for j in $i

@@ -4,18 +4,18 @@ if test $# -ne 0
 then
 	until [ $# -eq 0 ]
 	do
-		echo $1>>MesEntreprises.txt;
+		echo $1>>.Stocks.dat;
 		shift
 	done
-	for i in `cat MesEntreprises.txt`
+	for i in `cat .Stocks.dat`
 	do
 		wget google.com/finance?q=$i
 		d=`date "+%s"`
 		p=`sed -n "/itemprop=\"price\"/,/>/p" finance\?q\=$i | grep content | sed "s/ \+//g" | sed 's/.*"\(.*\)"[^"]*$/\1/'`
-		echo $d"_"$p  >> donnees/$i
+		echo $d"_"$p  >> data/$i
 		rm finance\?q\=$i
 	done
-		rm MesEntreprises.txt
+		rm .Stocks.dat
 	else
-		echo "Donnez vos entreprise en arguments s'il vous plait !"
+		echo "Donnez vos entreprises en arguments s'il vous plait !"
 fi
