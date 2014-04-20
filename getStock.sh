@@ -1,16 +1,21 @@
-for i in `cat Stocks.dat`
-do
-	for j in `cat data/$i`
+#!/bin/sh
+
+if test $# -ne 0
+then
+	until [ $# -eq 0 ]
 	do
-		s=`echo $j|cut -f1 -d"_"`
-		d=`date --date\="@$s" "+%d/%m/%Y,%H:%M:%S"`
-		v=`echo $j|cut -f2 -d"_"`
-		echo "$d $v" >> data.dat
+		echo $1>>.Stocks.dat;
+		shift
 	done
-	gnuplot script.plt
-	d=`date "+%s"`
-	mv data.png chart/$i/$i"_"$d.png
-	rm chart/$i/$i.png
-	ln -s chart/$i/$i"_"$d.png graph/$i/$i.png
-	rm data.dat
-done
+	for i in `cat .Stocks.dat`
+	do
+		wget google.com/finance?q=$i
+		d=`date "+%s"`
+		p=`sed -n "/itemprop=\"price\"/,/>/p" finance\?q\=$i | grep content | sed "s/ \+//g" | sed 's/.*"\(.*\)"[^"]*$/\1/'`
+		echo $d"_"$p  >> data/$i
+		rm finance\?q\=$i
+	done
+		rm .Stocks.dat
+	else
+		echo "Donnez vos entreprises en arguments s'il vous plait !"
+fi
