@@ -19,11 +19,11 @@ while true
 do
 	echo "Would you like to add stocks ? (yes/no)"
 	read input
-	if [ $input == "yes" ]; then
+	if [ $input = "yes" ]; then
 		./addStock.sh
 		break
 	fi
-	if [ $input == "no" ]; then
+	if [ $input = "no" ]; then
 		break
 	fi
 done
@@ -32,13 +32,21 @@ while true
 do
 	echo "Would you like to change the stock value update frequency ? (yes/no)"
 	read input
-	if [ $input == "yes" ]; then
+	if [ $input = "yes" ]; then
 		echo "How often would you like it to be ? (in hours)"
-		read value
+		while true
+		do
+			read value
+			if [ $value -ge 0 ] && [ $value -le 23 ]; then
+				break
+			else
+				echo "The value must be between 0 and 23"
+			fi
+		done
 		./setStockFrequency.sh $value
 		break
 	fi
-	if [ $input == "no" ]; then
+	if [ $input = "no" ]; then
 		break
 	fi
 done
@@ -47,13 +55,21 @@ while true
 do
 	echo "Would you like to change the chart update frequency ? (yes/no)"
 	read input
-	if [ $input == "yes" ]; then
+	if [ $input = "yes" ]; then
 		echo "How often would you like it to be ? (in hours)"
-		read value
+		while true
+		do
+			read value
+			if [ $value -ge 0 ] && [ $value -le 23 ]; then
+				break
+			else
+				echo "The value must be between 0 and 23"
+			fi
+		done
 		./setChartFrequency.sh $value
 		break
 	fi
-	if [ $input == "no" ]; then
+	if [ $input = "no" ]; then
 		break
 	fi
 done
