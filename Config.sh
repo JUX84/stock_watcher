@@ -6,59 +6,90 @@ echo "Stock watcher - Projet L3 (DELMAS/MHIRI)"
 echo "========================================"
 echo ""
 freq=`crontab -l|grep "/home/stock_watcher/getStock.sh"`
-min=`echo $freq|cut -f1 -d" "|cut -f2 -d "/"`
-if [ "$min" != "" ]; then
-	min=" $min"
+min=`echo "$freq"|cut -f1 -d" "`
+m=`echo "$min"|cut -f2 -d"/"`
+if [ "$min" != "$m" ]; then
+	min=" $m"
+else
+	min=""
 fi
-hour=`echo $freq|cut -f2 -d" "|cut -f2 -d "/"`
-if [ "$hour" != "" ]; then
-	hour=" $hour"
+hour=`echo "$freq"|cut -f2 -d" "`
+h=`echo "$hour"|cut -f2 -d"/"`
+if [ "$hour" != "$h" ]; then
+	hour=" $h"
+else
+	hour=""
 fi
-day=`echo $freq|cut -f3 -d" "|cut -f2 -d "/"`
-if [ "$day" != "" ]; then
-	day=" $day"
+day=`echo "$freq"|cut -f3 -d" "`
+d=`echo "$day"|cut -f2 -d"/"`
+if [ "$day" != "$d" ]; then
+	day=" $d"
+else
+	day=""
 fi
-month=`echo $freq|cut -f4 -d" "|cut -f2 -d "/"`
-if [ "$month" != "" ]; then
-	month=" $month"
-fi
-echo "Stock value update frequency: every$min minute(s), every$hour hour(s), every$day day(s), every$month month(s)"
+echo "Stock value update frequency: every$min minute(s), every$hour hour(s), every$day day(s)"
 freq=`crontab -l|grep "/home/stock_watcher/getChart.sh"`
-min=`echo $freq|cut -f1 -d" "|cut -f2 -d "/"`
-if [ "$min" != "" ]; then
-	min="$min "
+min=`echo "$freq"|cut -f1 -d" "`
+m=`echo "$min"|cut -f2 -d"/"`
+if [ "$min" != "$m" ]; then
+	min=" $m"
+else
+	min=""
 fi
-hour=`echo $freq|cut -f2 -d" "|cut -f2 -d "/"`
-if [ "$hour" != "" ]; then
-	hour="$hour "
+hour=`echo "$freq"|cut -f2 -d" "`
+h=`echo "$hour"|cut -f2 -d"/"`
+if [ "$hour" != "$h" ]; then
+	hour=" $h"
+else
+	hour=""
 fi
-day=`echo $freq|cut -f3 -d" "|cut -f2 -d "/"`
-if [ "$day" != "" ]; then
-	day="$day "
+day=`echo "$freq"|cut -f3 -d" "`
+d=`echo "$day"|cut -f2 -d"/"`
+if [ "$day" != "$d" ]; then
+	day=" $d"
+else
+	day=""
 fi
-month=`echo $freq|cut -f4 -d" "|cut -f2 -d "/"`
-if [ "$month" != "" ]; then
-	month="$month "
+echo "Chart update frequency: every$min minute(s), every$hour hour(s), every$day day(s)"
+freq=`crontab -l|grep "/home/stock_watcher/Backup.sh"`
+min=`echo "$freq"|cut -f1 -d" "`
+m=`echo "$min"|cut -f2 -d"/"`
+if [ "$min" != "$m" ]; then
+	min=" $m"
+else
+	min=""
 fi
-echo "Chart update frequency: every$min minute(s), every$hour hour(s), every$day day(s), every$month month(s)"
-freq=`crontab -l|grep "/home/stock_watcher/BackUp.sh"`
-min=`echo $freq|cut -f1 -d" "|cut -f2 -d "/"`
-if [ "$min" != "" ]; then
-	min="$min "
+hour=`echo "$freq"|cut -f2 -d" "`
+h=`echo "$hour"|cut -f2 -d"/"`
+if [ "$hour" != "$h" ]; then
+	hour=" $h"
+else
+	hour=""
 fi
-hour=`echo $freq|cut -f2 -d" "|cut -f2 -d "/"`
-if [ "$hour" != "" ]; then
-	hour="$hour "
+day=`echo "$freq"|cut -f3 -d" "`
+d=`echo "$day"|cut -f2 -d"/"`
+if [ "$day" != "$d" ]; then
+	day=" $d"
+else
+	day=""
 fi
-day=`echo $freq|cut -f3 -d" "|cut -f2 -d "/"`
-if [ "$day" != "" ]; then
-	day="$day "
+n=`echo "$freq"|cut -f7 -d" "`
+t=`echo "$freq"|cut -f8 -d" "`
+if [ "$t" = "m" ]; then
+	t="minute(s)"
 fi
-month=`echo $freq|cut -f4 -d" "|cut -f2 -d "/"`
-if [ "$month" != "" ]; then
-	month="$month "
+if [ "$t" = "h" ]; then
+	t="hour(s)"
 fi
-echo "BackUp update frequency: every$min minute(s), every$hour hour(s), every$day day(s), every$month month(s)"
+if [ "$t" = "d" ]; then
+	t="day(s)"
+fi
+echo "Backup update frequency: every$min minute(s), every$hour hour(s), every$day day(s) (Keeps the charts $n $t)"
+freq=`crontab -l|grep "/home/stock_watcher/Alert.sh"`
+percent=`echo "$freq"|cut -f7 -d" "`
+mail=`echo "$freq"|cut -f8 -d" "`
+echo "Alert if drop by $percent %"
+echo "Mail: $mail"
 echo ""
 echo "Here's a list of your followed stocks"
 echo ""
@@ -96,7 +127,7 @@ do
 			read value
 			n=`echo $value|cut -f1 -d" "`
 			t=`echo $value|cut -f2 -d" "`
-			if [ "$n" == "" || "$t" == "" ]; then
+			if [ "$n" = "$t" ]; then
 				echo "Error, try again!"
 			else
 				break;
@@ -121,7 +152,7 @@ do
 			read value
 			n=`echo $value|cut -f1 -d" "`
 			t=`echo $value|cut -f2 -d" "`
-			if [ "$n" == "" || "$t" == "" ]; then
+			if [ "$n" = "$t" ]; then
 				echo "Error, try again!"
 			else
 				break;
@@ -146,7 +177,7 @@ do
 			read value
 			n=`echo $value|cut -f1 -d" "`
 			t=`echo $value|cut -f2 -d" "`
-			if [ "$n" == "" || "$t" == "" ]; then
+			if [ "$n" = "$t" ]; then
 				echo "Error, try again!"
 			else
 				break;
@@ -158,16 +189,60 @@ do
 			read value
 			n2=`echo $value|cut -f1 -d" "`
 			t2=`echo $value|cut -f2 -d" "`
-			if [ "$n2" == "" || "$t2" == "" ]; then
+			if [ "$n2" = "$t2" ]; then
 				echo "Error, try again!"
 			else
 				break;
 			fi
 		done
-		./setCron.sh $n $t BackUp $n2 $t2
+		./setCron.sh $n $t Backup $n2 $t2
 		break
 	fi
-if [ $input = "no" ]; then
+	if [ $input = "no" ]; then
+		break
+	fi
+done
+echo ""
+while true
+do
+	echo "Would you like to be alerted by mail if a stock value drops ? (yes/no)"
+	read input
+	if [ $input = "yes" ]; then
+		echo "When to alert ? (Percentage, value between 0 and 100)"
+		while true
+		do
+			read percent
+			if [ $percent -lt 0 ] && [ $percent -gt 100 ]; then
+				echo "Error, try again!"
+			else
+				break;
+			fi
+		done
+		echo "What is your e-mail ?"
+		read mail
+		freq=`crontab -l|grep "/home/stock_watcher/getStock.sh"`
+		min=`echo "$freq"|cut -f1 -d" "`
+		m=`echo "$min"|cut -f2 -d "/"`
+		if [ "$min" != "$m" ]; then
+			n=$m
+			t="m"
+		fi
+		hour=`echo "$freq"|cut -f2 -d" "`
+		h=`echo "$hour"|cut -f2 -d"/"`
+		if [ "$hour" != "$h" ]; then
+			n=$h
+			t="h"
+		fi
+		day=`echo "$freq"|cut -f3 -d" "`
+		d=`echo "$day"|cut -f2 -d"/"`
+		if [ "$day" != "$d" ]; then
+			n=$d
+			t="d"
+		fi
+		./setCron.sh $n $t Alert $percent $mail
+		break
+	fi
+	if [ $input = "no" ]; then
 		break
 	fi
 done
