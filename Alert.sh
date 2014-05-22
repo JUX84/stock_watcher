@@ -1,10 +1,10 @@
 #!/bin/sh
 
 dir=`dirname "$0"`
-for i in $dir/data/*
+for i in `ls $dir/data`
 do
-	before=`cat $i|tail -n2|head -n1`
-	after=`cat $i|tail -n1`
+	before=`cat $dir/data/$i|tail -n2|head -n1|cut -f2 -d"_"`
+	after=`cat $dir/data/$i|tail -n1|cut -f2 -d"_"`
 	var1=`echo "$1*0.01"|bc -l`
 	var2=`echo "$before*$var1"|bc -l`
 	result=`echo "$before-$var2"|bc -l`
