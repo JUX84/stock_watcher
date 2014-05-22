@@ -24,6 +24,6 @@ for i in data/*
 		compare=`echo "$after<=$result" |bc -l`
 		if [ $compare -eq 1 ]
 		then 
-			echo "Alert entreprise "$i | mail -s "The price of the entreprise called "$i" has fallen more than "$pourcent drake84450@hotmail.fr
+			echo "Alert entreprise "$i | mail -s "The price of the entreprise called "$i" has fallen more than "$pourcent truc@hotmail.fr
 		fi
 	done	
