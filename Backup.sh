@@ -21,6 +21,7 @@ hour=`date --date="@$date" +%H`
 min=`date --date="@$date" +%M`
 for i in `ls $dir/chart`
 do
+	name=`echo $i|sed "s/:/_/g"`
 	cd $dir/chart/$i
-	tar cpvzf $dir/backup/$i.tar *.png --newer "$year-$month-$day $hour:$min:00"
+	tar cpzf $dir/backup/$name.tar.gz *.png --exclude="$i.png" --newer "$year-$month-$day $hour:$min:00"
 done
