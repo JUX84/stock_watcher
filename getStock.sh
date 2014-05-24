@@ -1,6 +1,9 @@
 #!/bin/sh
 
 dir=`dirname "$0"`
+if [ "$dir" = "." ]; then
+	dir=$PWD
+fi
 for i in `cat $dir/Stocks.dat`
 do
 	wget google.com/finance?q=$i -O $dir/$i

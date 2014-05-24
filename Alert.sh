@@ -1,6 +1,9 @@
 #!/bin/sh
 
 dir=`dirname "$0"`
+if [ "$dir" = "." ]; then
+	dir=$PWD
+fi
 for i in `ls $dir/data`
 do
 	before=`cat $dir/data/$i|tail -n2|head -n1|cut -f2 -d"_"`

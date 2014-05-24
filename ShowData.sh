@@ -73,4 +73,3 @@ echo 'figure:hover{text-decoration:none;	border: 10px solid black;  -webkit-tran
 echo 'figure:focus{text-decoration:none;	border: 10px solid black;  outline: none;  -webkit-transform: rotate(0) scale(4); -moz-transform: rotate(0) scale(4);   -webkit-box-shadow: 0 3px 10px #666; -moz-box-shadow: 0 3px 10px #666;  z-index: 25;}'>>ShowData.css
 
 firefox ShowData.html
-

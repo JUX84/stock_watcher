@@ -1,6 +1,9 @@
 #!/bin/sh
 
 dir=`dirname "$0"`
+if [ "$dir" = "." ]; then
+	dir=$PWD
+fi
 date=`date +%s`
 if [ "$2" = "m" ]; then
 	back=`expr $1 \* 60`
