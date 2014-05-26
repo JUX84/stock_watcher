@@ -19,7 +19,9 @@ do
 		mkdir $dir/chart/$i
 	fi
 	mv data.png $dir/chart/$i/$i"_"$d.png
-	rm $dir/chart/$i/$i.png
+	if [ -f $dir/chart/$i/$i.png ];then
+		rm $dir/chart/$i/$i.png
+	fi
 	ln -s $i"_"$d.png $dir/chart/$i/$i.png
 	rm data.dat
 done
