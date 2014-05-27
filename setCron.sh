@@ -4,8 +4,10 @@ m=""
 h=""
 d=""
 M=""
-crontab -l|grep -v "$PWD/$3.sh" >> .tmp
-crontab -r
+crontab -l 2>&1|grep -v "$PWD/$3.sh"|grep -v "no crontab" >> .tmp
+if [ "`cat .tmp`" != "" ]; then
+	crontab -r 2>&1 > /dev/null
+fi
 if [ "$2" = "m" ]; then
 	m="/$1"
 fi

@@ -5,7 +5,41 @@ echo "========================================"
 echo "Stock watcher - Projet L3 (DELMAS/MHIRI)"
 echo "========================================"
 echo ""
-freq=`crontab -l|grep "/home/stock_watcher/getStock.sh"`
+all=`crontab -l 2>&1|grep "/home/stock_watcher/getStock.sh"`
+allv=`crontab -l 2>&1|grep -v "/home/stock_watcher/getStock.sh"|grep -v "/home/stock_watcher/getChart.sh"|grep -v "/home/stock_watcher/Backup.sh"|grep -v "/home/stock_watcher/Alert.sh"|grep -v "no crontab"`
+if [ "$all" = "" ]; then
+	echo "The system is currently disabled, would you like to start it ? (yes/no)"
+	while true
+	do
+		read start
+		if [ "$start" = "yes" ]; then
+			break
+		fi
+		if [ "$start" = "no" ]; then
+			exit
+		fi
+	done
+else
+	echo "The system is currently enabled, would you like to stop it ? (yes/no)"
+	while true
+	do
+		read stop
+		if [ "$stop" = "yes" ]; then
+			echo "$allv" >> .tmp
+			crontab -r
+			if [ "`cat .tmp`" != "" ]; then
+				crontab .tmp
+			fi
+			rm .tmp
+			exit
+		fi
+		if [ "$stop" = "no" ]; then
+			break
+		fi
+	done
+fi
+echo ""
+freq=`crontab -l 2>&1|grep "/home/stock_watcher/getStock.sh" > /dev/null`
 min=`echo "$freq"|cut -f1 -d" "`
 m=`echo "$min"|cut -f2 -d"/"`
 if [ "$min" != "$m" ]; then
@@ -28,7 +62,7 @@ else
 	day=""
 fi
 echo "Stock value update frequency: every$min minute(s), every$hour hour(s), every$day day(s)"
-freq=`crontab -l|grep "/home/stock_watcher/getChart.sh"`
+freq=`crontab -l 2>&1|grep "/home/stock_watcher/getChart.sh" > /dev/null`
 min=`echo "$freq"|cut -f1 -d" "`
 m=`echo "$min"|cut -f2 -d"/"`
 if [ "$min" != "$m" ]; then
@@ -51,7 +85,7 @@ else
 	day=""
 fi
 echo "Chart update frequency: every$min minute(s), every$hour hour(s), every$day day(s)"
-freq=`crontab -l|grep "/home/stock_watcher/Backup.sh"`
+freq=`crontab -l 2>&1|grep "/home/stock_watcher/Backup.sh" > /dev/null`
 min=`echo "$freq"|cut -f1 -d" "`
 m=`echo "$min"|cut -f2 -d"/"`
 if [ "$min" != "$m" ]; then
@@ -85,7 +119,7 @@ if [ "$t" = "d" ]; then
 	t="day(s)"
 fi
 echo "Backup update frequency: every$min minute(s), every$hour hour(s), every$day day(s) (Keeps the charts $n $t)"
-freq=`crontab -l|grep "/home/stock_watcher/Alert.sh"`
+freq=`crontab -l 2>&1|grep "/home/stock_watcher/Alert.sh" > /dev/null`
 percent=`echo "$freq"|cut -f7 -d" "`
 mail=`echo "$freq"|cut -f8 -d" "`
 echo "Alert if drop by $percent %"
@@ -220,7 +254,7 @@ do
 		done
 		echo "What is your e-mail ?"
 		read mail
-		freq=`crontab -l|grep "/home/stock_watcher/getStock.sh"`
+		freq=`crontab -l 2>&1|grep "/home/stock_watcher/getStock.sh" > /dev/null`
 		min=`echo "$freq"|cut -f1 -d" "`
 		m=`echo "$min"|cut -f2 -d "/"`
 		if [ "$min" != "$m" ]; then
