@@ -6,7 +6,7 @@ d=""
 M=""
 crontab -l 2>&1|grep -v "$PWD/$3.sh"|grep -v "no crontab" >> .tmp
 if [ "`cat .tmp`" != "" ]; then
-	crontab -r 2>&1 > /dev/null
+	crontab -r
 fi
 if [ "$2" = "m" ]; then
 	m="/$1"
